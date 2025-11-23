@@ -1,5 +1,6 @@
 package blog_api.Blog.domain.entity;
 
+import blog_api.Blog.domain.dto.entrada.DadosCadastroUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,4 +21,12 @@ public class Usuario {
     private String login;
 
     private String senha;
+
+    public Usuario(DadosCadastroUsuario dadosCadastroUsuario) {
+
+        this.login= dadosCadastroUsuario.login();
+        this.senha= dadosCadastroUsuario.senha();
+
+
+    }
 }
