@@ -22,11 +22,13 @@ public class UsuarioService {
 
         var usuarioCadastrado = new Usuario(dadosCadastroUsuario);
 
-        usuarioCadastrado.setSenha(encode.encodePassword(usuarioCadastrado.getSenha()));
-
         if (!dadosCadastroUsuario.confirmarSenha().equals(usuarioCadastrado.getSenha())){
             throw new RuntimeException("As senhas precisam ser as mesmas");
         }
+
+        usuarioCadastrado.setSenha(encode.encodePassword(usuarioCadastrado.getSenha()));
+
+
 
         return repository.save(usuarioCadastrado);
 
