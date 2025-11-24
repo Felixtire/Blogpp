@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/cadastrar")
 public class CadastrarUsuarioController {
 
     @Autowired

@@ -3,6 +3,7 @@ package blog_api.Blog.service;
 import blog_api.Blog.domain.dto.entrada.DadosCadastroUsuario;
 import blog_api.Blog.domain.entity.Usuario;
 import blog_api.Blog.domain.repository.UserRepository;
+import blog_api.Blog.service.passwordSecurity.EncoderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,14 @@ public class UsuarioService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private EncoderService encode;
+
     public Usuario cadastrar(DadosCadastroUsuario dadosCadastroUsuario){
 
         var usuarioCadastrado = new Usuario(dadosCadastroUsuario);
+
+        usuarioCadastrado.setSenha(encode.encodePassword(usuarioCadastrado.getSenha()));
 
         if (!dadosCadastroUsuario.confirmarSenha().equals(usuarioCadastrado.getSenha())){
             throw new RuntimeException("As senhas precisam ser as mesmas");
@@ -46,7 +52,10 @@ public class UsuarioService {
         }
 
         usuario.setLogin(dados.login());
-        usuario.setSenha(dados.senha());
+
+        if (dados.senha() != null){
+            usuario.setSenha(encode.encodePassword(dados.senha()));
+        }
 
         return repository.save(usuario);
     }
